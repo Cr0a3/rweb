@@ -4,9 +4,11 @@
 
 pub mod app;
 pub mod component;
+pub mod wasm;
 
 /// Reexport of the most commonly used types
 pub mod prelude {
     pub use crate::app::*;
     pub use crate::component::*;
+    pub use crate::wasm::Metadata;
 }

@@ -6,6 +6,7 @@ use crate::prelude::*;
 #[derive(Debug, Default)]
 pub struct App {
     comps: Vec<StaticComponent>,
+    metadata: Metadata,
 }
 
 impl App {

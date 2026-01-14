@@ -7,7 +7,8 @@ fn index() -> impl Node {
     }
 }
 
-fn main() {
+#[wasm_bindgen::prelude::wasm_bindgen]
+pub fn main() {
     App::new()
         .add(index)
         .serve();
