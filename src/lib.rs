@@ -13,6 +13,6 @@ pub mod prelude {
     pub use crate::app::*;
     pub use crate::component::*;
     pub use crate::signal::*;
-    pub use macros::*;
     pub use crate::wasm::Metadata;
+    pub use macros::*;
 }

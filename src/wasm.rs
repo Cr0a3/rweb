@@ -1,5 +1,5 @@
 //! Wasm/html interop
-use anyhow::bail;
+use anyhow::{anyhow, bail};
 use web_sys::Document;
 
 /// Website metadata
@@ -21,7 +21,7 @@ pub fn set_inner_html(doc: &Document, id: &str, html: &str) {
 
 impl Metadata {
     /// Applys the metadata to the document
-    pub fn apply(&self, doc: &Document) -> anyhow::Result<()>  {
+    pub fn apply(&self, doc: &Document) -> anyhow::Result<()> {
         let Some(head) = doc.head() else {
             bail!("Failed to retrive header element");
         };
@@ -29,22 +29,26 @@ impl Metadata {
             doc.set_title(title);
         }
         if let Some(desc_str) = &self.description {
-            let desc = doc.create_element("meta")?;
-            desc.set_attribute("name", "description")?;
-            desc.set_attribute("content", desc_str)?;
-            head.append_child(&desc)?;
+            let desc = doc.create_element("meta").map_err(|e| anyhow!("{e:?}"))?;
+            desc.set_attribute("name", "description")
+                .map_err(|e| anyhow!("{e:?}"))?;
+            desc.set_attribute("content", desc_str)
+                .map_err(|e| anyhow!("{e:?}"))?;
+            head.append_child(&desc).map_err(|e| anyhow!("{e:?}"))?;
         }
 
         if !self.keywords.is_empty() {
-            let item = doc.create_element("meta")?;
-            item.set_attribute("name", "keywords")?;
+            let item = doc.create_element("meta").map_err(|e| anyhow!("{e:?}"))?;
+            item.set_attribute("name", "keywords")
+                .map_err(|e| anyhow!("{e:?}"))?;
             let mut string = String::new();
             for keyword in &self.keywords {
                 string.push_str(keyword);
                 string.push(',');
             }
-            item.set_attribute("content",&string);
-            head.append_child(&item)?;
+            item.set_attribute("content", &string)
+                .map_err(|e| anyhow!("{e:?}"))?;
+            head.append_child(&item).map_err(|e| anyhow!("{e:?}"))?;
         }
 
         Ok(())

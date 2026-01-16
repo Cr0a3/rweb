@@ -13,17 +13,14 @@ pub fn component(input: TokenStream) -> TokenStream {
 
     quote! {
         #[derive(Debug)]
-        #vis struct #name {
-
-        }
+        #vis struct #name;
 
         impl rweb::prelude::Component for #name {
+            #[allow(unsed_mut)]
             fn build(&self) -> rweb::build::BuildCache {
-                todo!()
-            }
-
-            fn init_sigs(&mut self) {
-                // Signals aren't yet supported
+                let mut build = rewb::build::BuildCache::new();
+                todo!("Build it!")
+                //build
             }
         }
 

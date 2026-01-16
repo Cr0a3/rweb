@@ -2,7 +2,7 @@
 
 use std::{
     any::TypeId,
-    ops::{Add, Deref, DerefMut},
+    ops::{Deref, DerefMut},
 };
 
 /// Creates a state (state) which can be changed,

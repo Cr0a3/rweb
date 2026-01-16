@@ -1,5 +1,7 @@
 //! Component implementation
 
+use std::any::TypeId;
+
 use crate::build::BuildCache;
 
 /// An web node is required to implement this trait
@@ -7,13 +9,15 @@ pub trait Component: std::fmt::Debug {
     /// Renders the component (called onces)
     fn build(&self) -> BuildCache;
 
-    /// Initalises all signals
-    fn init_sigs(&mut self);
+    /// Returns the typeid of the component
+    fn typeid(&'static self) -> TypeId {
+        TypeId::of::<Self>()
+    }
 }
 
 #[derive(Debug)]
 #[doc(hidden)]
-pub struct StaticComponent(pub Box<dyn Component>);
+pub struct StaticComponent(pub Box<dyn Component>, pub TypeId);
 
 /*
 /// Component
