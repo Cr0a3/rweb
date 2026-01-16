@@ -15,16 +15,19 @@ impl App {
         Self::default()
     }
 
-    /// Adds a component bundle to the app
-    pub fn add(mut self, bundle: impl IntoIterator<Item = Box<dyn Component>>) -> Self {
-        bundle.into_iter().for_each(
-            |comp| self.comps.push(StaticComponent(comp))
-        );
+    /// Sets the main component
+    pub fn main<C>(mut self) -> Self
+    where
+        C: Component + Default + 'static,
+    {
+        self.comps.push(StaticComponent(Box::new(C::default())));
         self
     }
 
     /// Serves the app
-    pub fn serve(self) {
-        todo!()
+    pub fn serve(mut self) {
+        // Initialize all signals
+
+        self.comps.iter_mut().for_each(|x| x.0.init_sigs());
     }
 }

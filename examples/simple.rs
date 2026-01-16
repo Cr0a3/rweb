@@ -1,15 +1,15 @@
 use rweb::prelude::*;
 
 #[component]
-fn index() -> impl Node {
-    rsx! { 
-        <p>Hello World!</p>
+fn Counter() -> impl Component {
+    let counter = use_signal(|| 0);
+
+    view! {
+        <p>Counter: {counter}</p>
+        <button onclick={counter += 1}>+1</button>
     }
 }
 
-#[wasm_bindgen::prelude::wasm_bindgen]
-pub fn main() {
-    App::new()
-        .add(index)
-        .serve();
+fn main() {
+    App::new().main::<Counter>().serve();
 }
